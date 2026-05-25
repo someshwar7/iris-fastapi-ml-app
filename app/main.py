@@ -5,7 +5,7 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from pathlib import Path
 
-from model import predict_iris
+from .model import predict_iris
 
 BASE_DIR = Path(__file__).resolve().parent
 
