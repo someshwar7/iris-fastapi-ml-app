@@ -3,8 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
+from pathlib import Path
 
 from model import predict_iris
+
+BASE_DIR = Path(__file__).resolve().parent
 
 app = FastAPI()
 
@@ -18,13 +21,16 @@ app.add_middleware(
 )
 
 # Serve frontend folder
-app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
-
+app.mount(
+    "/frontend",
+    StaticFiles(directory=BASE_DIR / "frontend"),
+    name="frontend"
+)
 
 # Open index.html at root URL
 @app.get("/")
 def home():
-    return FileResponse("frontend/index.html")
+    return FileResponse(BASE_DIR / "frontend" / "index.html")
 
 
 class IrisInput(BaseModel):
