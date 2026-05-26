@@ -5,7 +5,10 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from pathlib import Path
 
-from .model import predict_iris
+try:
+    from .model import predict_iris
+except ImportError:
+    from model import predict_iris
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -53,3 +56,8 @@ def predict(data: IrisInput):
     return {
         "prediction": result
     }
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
